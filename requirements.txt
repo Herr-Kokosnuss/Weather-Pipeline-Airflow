@@ -1,0 +1,9 @@
+apache-airflow
+requests
+pandas
+scikit-learn
+psycopg2-binary
+python-dotenv
+fastapi
+uvicorn
+joblib
