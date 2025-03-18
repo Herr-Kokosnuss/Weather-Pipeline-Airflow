@@ -77,9 +77,10 @@ The following German cities are included in the pipeline:
 
 ## ML Model
 
-The ML model is a simple linear regression that uses the following features:
-- Day of year
+The ML model is a simple linear regression that predicts the next day's temperature using the following features:
+- Historical temperature data
+- Day of year (seasonality)
 - Day of week
 - Humidity
 
-The model is trained to predict the temperature for the next day. 
+The model is trained separately for each city using data collected over time.
