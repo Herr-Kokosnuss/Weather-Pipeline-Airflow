@@ -1,6 +1,7 @@
 apache-airflow
 requests
 pandas
+numpy
 scikit-learn
 psycopg2-binary
 python-dotenv
@@ -15,3 +16,6 @@ openai>=1.0.0
 
 typing-extensions
 loguru
+
+pytest
+httpx

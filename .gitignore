@@ -5,3 +5,4 @@ scripts/__pycache__
 airflow.code-workspace
 airflow.db
 airflow.cfg
+venv/
