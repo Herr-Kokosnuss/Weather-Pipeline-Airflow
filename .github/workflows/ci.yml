@@ -2,7 +2,7 @@ name: Weather ML App CI/CD
 
 on:
   push:
-    branches: [ main, deployment, frontend-update ]
+    branches: [ main, deployment, frontend-update, deployment-cloud ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:  # Enable manual triggering
@@ -13,7 +13,7 @@ env:
   ECR_ML: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather
   ECR_API: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather-api
   ECR_FRONTEND: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather-frontend
-  S3_BUCKET: weather-prediction-airflow-2580  # Updated with your actual bucket name
+  ECR_CONFIG: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather-config
 
 jobs:
   test:
@@ -67,48 +67,15 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Create deployment package
+    - name: Build and push Config image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        # Create deployment directory
-        mkdir -p deployment
-        
-        # Copy necessary files
-        cp docker-compose.yml deployment/
-        
-        # Copy directories if they exist
-        [ -d "dags" ] && cp -r dags deployment/
-        [ -d "scripts" ] && cp -r scripts deployment/
-        [ -d "models" ] && cp -r models deployment/
-        [ -d "data" ] && cp -r data deployment/
-        [ -d "api" ] && cp -r api deployment/
-        [ -d "frontend" ] && cp -r frontend deployment/
-        
-        # Copy Dockerfiles and requirements
-        cp Dockerfile* deployment/
-        cp requirements.txt deployment/
-        
-        # Create setup script
-        cat > deployment/setup.sh << 'EOF'
-        #!/bin/bash
-        
-        # Pull images from ECR
-        aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_BASE}
-        docker pull ${ECR_ML}:latest
-        docker pull ${ECR_API}:latest
-        docker pull ${ECR_FRONTEND}:latest
-        
-        # Start services
-        docker-compose up -d
-        EOF
-        
-        chmod +x deployment/setup.sh
-        
-        # Create tar file
-        tar -czf deployment.tar.gz deployment/
-
-    - name: Upload deployment package to S3
-      run: |
-        aws s3 cp deployment.tar.gz s3://${{ env.S3_BUCKET }}/deployment-${{ github.sha }}.tar.gz
+        # Build and push Config image
+        docker build -t ${{ env.ECR_CONFIG }}:latest -f Dockerfile.config .
+        docker push ${{ env.ECR_CONFIG }}:latest
+        docker tag ${{ env.ECR_CONFIG }}:latest ${{ env.ECR_CONFIG }}:${{ github.sha }}
+        docker push ${{ env.ECR_CONFIG }}:${{ github.sha }}
 
     - name: Build and push ML image
       env:
@@ -138,4 +105,4 @@ jobs:
         docker build -t ${{ env.ECR_FRONTEND }}:latest -f Dockerfile.frontend .
         docker push ${{ env.ECR_FRONTEND }}:latest
         docker tag ${{ env.ECR_FRONTEND }}:latest ${{ env.ECR_FRONTEND }}:${{ github.sha }}
-        docker push ${{ env.ECR_FRONTEND }}:${{ github.sha }} 
+        docker push ${{ env.ECR_FRONTEND }}:${{ github.sha }}

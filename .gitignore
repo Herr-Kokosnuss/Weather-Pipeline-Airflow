@@ -6,3 +6,4 @@ airflow.code-workspace
 airflow.db
 airflow.cfg
 venv/
+setup.sh
