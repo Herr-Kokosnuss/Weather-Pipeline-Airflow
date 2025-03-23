@@ -9,6 +9,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+    padding-bottom: 60px; /* Height of the footer */
 }
 
 /* Header Styles */
@@ -17,20 +19,33 @@ body {
     color: white;
     padding: 1rem 2rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
 }
 
 .weather-icon {
     font-size: 2.5rem;
-    margin-right: 1rem;
     color: #ffd700;
+    margin: 0;
+    display: flex;
+    align-items: center;
 }
 
 .app-header h1 {
     margin: 0;
     font-size: 1.8rem;
     font-weight: 600;
+    display: inline-block;
 }
 
 /* Content Layout */
@@ -253,9 +268,25 @@ h3 {
 /* Chat Widget Styles */
 .chat-widget {
     position: fixed;
-    bottom: 20px;
+    bottom: 80px; /* Adjusted to be above footer */
     right: 20px;
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    width: auto;
+}
+
+.chat-label {
+    background: rgba(0, 123, 255, 0.9);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
 }
 
 .chat-button {
@@ -287,6 +318,7 @@ h3 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: none;
     flex-direction: column;
+    z-index: 1000;
 }
 
 .chat-popup.active {
@@ -377,4 +409,21 @@ h3 {
 /* Remove old chat card styles */
 .chat-card {
     display: none;
+}
+
+/* Footer Styles */
+.app-footer {
+    background: linear-gradient(135deg, #00b4db, #0083b0);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
 } 
