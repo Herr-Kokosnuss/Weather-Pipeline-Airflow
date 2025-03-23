@@ -74,12 +74,16 @@ jobs:
         
         # Copy necessary files
         cp docker-compose.yml deployment/
-        cp -r dags deployment/
-        cp -r scripts deployment/
-        cp -r models deployment/
-        cp -r data deployment/
-        cp -r api deployment/
-        cp -r frontend deployment/
+        
+        # Copy directories if they exist
+        [ -d "dags" ] && cp -r dags deployment/
+        [ -d "scripts" ] && cp -r scripts deployment/
+        [ -d "models" ] && cp -r models deployment/
+        [ -d "data" ] && cp -r data deployment/
+        [ -d "api" ] && cp -r api deployment/
+        [ -d "frontend" ] && cp -r frontend deployment/
+        
+        # Copy Dockerfiles and requirements
         cp Dockerfile* deployment/
         cp requirements.txt deployment/
         
