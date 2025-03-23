@@ -75,9 +75,8 @@ jobs:
     - name: Build and push Config image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        DOCKER_BUILDKIT: 0
       run: |
-        docker build -t ${{ env.ECR_CONFIG }}:latest -f Dockerfile.config .
+        docker build . -t ${{ env.ECR_CONFIG }}:latest -f Dockerfile.config
         docker push ${{ env.ECR_CONFIG }}:latest
         docker tag ${{ env.ECR_CONFIG }}:latest ${{ env.ECR_CONFIG }}:${{ github.sha }}
         docker push ${{ env.ECR_CONFIG }}:${{ github.sha }}
@@ -85,9 +84,8 @@ jobs:
     - name: Build and push ML image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        DOCKER_BUILDKIT: 0
       run: |
-        docker build -t ${{ env.ECR_ML }}:latest -f Dockerfile .
+        docker build . -t ${{ env.ECR_ML }}:latest -f Dockerfile
         docker push ${{ env.ECR_ML }}:latest
         docker tag ${{ env.ECR_ML }}:latest ${{ env.ECR_ML }}:${{ github.sha }}
         docker push ${{ env.ECR_ML }}:${{ github.sha }}
@@ -95,9 +93,8 @@ jobs:
     - name: Build and push API image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        DOCKER_BUILDKIT: 0
       run: |
-        docker build -t ${{ env.ECR_API }}:latest -f Dockerfile.api .
+        docker build . -t ${{ env.ECR_API }}:latest -f Dockerfile.api
         docker push ${{ env.ECR_API }}:latest
         docker tag ${{ env.ECR_API }}:latest ${{ env.ECR_API }}:${{ github.sha }}
         docker push ${{ env.ECR_API }}:${{ github.sha }}
@@ -105,9 +102,8 @@ jobs:
     - name: Build and push Frontend image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        DOCKER_BUILDKIT: 0
       run: |
-        docker build -t ${{ env.ECR_FRONTEND }}:latest -f Dockerfile.frontend .
+        docker build . -t ${{ env.ECR_FRONTEND }}:latest -f Dockerfile.frontend
         docker push ${{ env.ECR_FRONTEND }}:latest
         docker tag ${{ env.ECR_FRONTEND }}:latest ${{ env.ECR_FRONTEND }}:${{ github.sha }}
         docker push ${{ env.ECR_FRONTEND }}:${{ github.sha }}
