@@ -13,6 +13,7 @@ env:
   ECR_ML: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather
   ECR_API: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather-api
   ECR_FRONTEND: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather-frontend
+  S3_BUCKET: weather-prediction-airflow-2580  # Updated with your actual bucket name
 
 jobs:
   test:
@@ -65,6 +66,45 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Create deployment package
+      run: |
+        # Create deployment directory
+        mkdir -p deployment
+        
+        # Copy necessary files
+        cp docker-compose.yml deployment/
+        cp -r dags deployment/
+        cp -r scripts deployment/
+        cp -r models deployment/
+        cp -r data deployment/
+        cp -r api deployment/
+        cp -r frontend deployment/
+        cp Dockerfile* deployment/
+        cp requirements.txt deployment/
+        
+        # Create setup script
+        cat > deployment/setup.sh << 'EOF'
+        #!/bin/bash
+        
+        # Pull images from ECR
+        aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_BASE}
+        docker pull ${ECR_ML}:latest
+        docker pull ${ECR_API}:latest
+        docker pull ${ECR_FRONTEND}:latest
+        
+        # Start services
+        docker-compose up -d
+        EOF
+        
+        chmod +x deployment/setup.sh
+        
+        # Create tar file
+        tar -czf deployment.tar.gz deployment/
+
+    - name: Upload deployment package to S3
+      run: |
+        aws s3 cp deployment.tar.gz s3://${{ env.S3_BUCKET }}/deployment-${{ github.sha }}.tar.gz
 
     - name: Build and push ML image
       env:

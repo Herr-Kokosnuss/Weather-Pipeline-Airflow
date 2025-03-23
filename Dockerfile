@@ -18,7 +18,13 @@ COPY requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -r /requirements.txt
 
 # Create directories
-RUN mkdir -p /opt/airflow/scripts /opt/airflow/models /opt/airflow/data
+RUN mkdir -p /opt/airflow/scripts /opt/airflow/models /opt/airflow/data /opt/airflow/dags
+
+# Copy application files
+COPY dags/ /opt/airflow/dags/
+COPY scripts/ /opt/airflow/scripts/
+COPY models/ /opt/airflow/models/
+COPY data/ /opt/airflow/data/
 
 # Set working directory
 WORKDIR /opt/airflow 
