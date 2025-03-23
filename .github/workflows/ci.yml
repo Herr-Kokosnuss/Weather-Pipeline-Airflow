@@ -8,12 +8,17 @@ on:
   workflow_dispatch:  # Enable manual triggering
 
 env:
-  AWS_REGION: us-east-1
-  ECR_BASE: 730335255832.dkr.ecr.us-east-1.amazonaws.com
-  ECR_ML: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather
-  ECR_API: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather-api
-  ECR_FRONTEND: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather-frontend
-  ECR_CONFIG: 730335255832.dkr.ecr.us-east-1.amazonaws.com/weather-config
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECR_BASE: ${{ secrets.ECR_BASE_URL }}
+  ECR_ML: ${{ secrets.ECR_BASE_URL }}/${{ secrets.ECR_ML_REPO }}
+  ECR_API: ${{ secrets.ECR_BASE_URL }}/${{ secrets.ECR_API_REPO }}
+  ECR_FRONTEND: ${{ secrets.ECR_BASE_URL }}/${{ secrets.ECR_FRONTEND_REPO }}
+  ECR_CONFIG: ${{ secrets.ECR_BASE_URL }}/${{ secrets.ECR_CONFIG_REPO }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
 jobs:
   test:
