@@ -8,3 +8,10 @@ fastapi
 uvicorn
 joblib
 pytz
+
+aiohttp
+python-dotenv
+openai>=1.0.0
+
+typing-extensions
+loguru

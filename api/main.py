@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 import pytz
 from typing import List, Optional
+from api.chatbot import get_chat_response  # Fixed import
 
 # Add parent directory to path to import utils
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -42,6 +43,12 @@ class PredictionResponse(BaseModel):
     predicted_temperature: float
     last_updated: str
     historical_data: List[HistoricalReading]
+
+class ChatMessage(BaseModel):
+    message: str
+
+class ChatResponse(BaseModel):
+    response: str
 
 @app.get("/")
 def read_root():
@@ -138,6 +145,15 @@ def get_city_prediction(city: str) -> PredictionResponse:
         last_updated=german_time.strftime("%Y-%m-%d %H:%M:%S"),
         historical_data=historical_readings
     )
+
+@app.post("/chat", response_model=ChatResponse)
+async def chat(message: ChatMessage):
+    """Process a chat message and return the response"""
+    try:
+        response = await get_chat_response(message.message)
+        return ChatResponse(response=response)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn

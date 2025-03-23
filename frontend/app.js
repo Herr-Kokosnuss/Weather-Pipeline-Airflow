@@ -2,10 +2,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const citySelect = document.getElementById('citySelect');
     const weatherInfo = document.getElementById('weatherInfo');
     const getWeatherBtn = document.getElementById('getWeather');
+    const chatInput = document.getElementById('chatInput');
+    const sendMessageBtn = document.getElementById('sendMessage');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatToggle = document.getElementById('chatToggle');
+    const chatClose = document.getElementById('chatClose');
+    const chatPopup = document.getElementById('chatPopup');
     const API_BASE_URL = 'http://localhost:8000';
 
     // Initialize with loading state
     let isLoading = false;
+
+    // Chat toggle functionality
+    chatToggle.addEventListener('click', () => {
+        chatPopup.classList.add('active');
+        chatInput.focus();
+    });
+
+    chatClose.addEventListener('click', () => {
+        chatPopup.classList.remove('active');
+    });
+
+    // Close chat when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!chatPopup.contains(e.target) && !chatToggle.contains(e.target)) {
+            chatPopup.classList.remove('active');
+        }
+    });
 
     // Fetch available cities
     console.log('Fetching cities from:', `${API_BASE_URL}/`);
@@ -127,4 +150,68 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Error:', message);
         alert(message);
     }
+
+    // Chat functionality
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                ${message}
+            </div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Clear input
+        chatInput.value = '';
+
+        // Add user message to chat
+        addMessage(message, true);
+
+        try {
+            // Disable input while processing
+            chatInput.disabled = true;
+            sendMessageBtn.disabled = true;
+
+            // Send message to API
+            const response = await fetch(`${API_BASE_URL}/chat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to get response from assistant');
+            }
+
+            const data = await response.json();
+            addMessage(data.response);
+        } catch (error) {
+            console.error('Chat error:', error);
+            addMessage('Sorry, I encountered an error. Please try again.');
+        } finally {
+            // Re-enable input
+            chatInput.disabled = false;
+            sendMessageBtn.disabled = false;
+            chatInput.focus();
+        }
+    }
+
+    // Handle send message button click
+    sendMessageBtn.addEventListener('click', sendMessage);
+
+    // Handle enter key in chat input
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
 }); 
