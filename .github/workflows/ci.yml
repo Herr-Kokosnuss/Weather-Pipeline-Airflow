@@ -71,7 +71,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         # Build and push ML image
-        docker build -t ${{ env.ECR_ML }}:latest -f Dockerfile.ml .
+        docker build -t ${{ env.ECR_ML }}:latest -f Dockerfile .
         docker push ${{ env.ECR_ML }}:latest
         docker tag ${{ env.ECR_ML }}:latest ${{ env.ECR_ML }}:${{ github.sha }}
         docker push ${{ env.ECR_ML }}:${{ github.sha }}
