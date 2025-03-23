@@ -9,13 +9,12 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Create directories
-RUN mkdir -p /app/models /app/data
+RUN mkdir -p /app/models
 
 # Copy application code and data
 COPY api/ /app/api/
 COPY scripts/ /app/scripts/
 COPY models/ /app/models/
-COPY data/ /app/data/
 
 # Set environment variables
 ENV PYTHONPATH=/app

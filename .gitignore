@@ -8,3 +8,4 @@ airflow.cfg
 venv/
 .pytest_cache/
 samples/
+data/
