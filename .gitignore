@@ -6,4 +6,5 @@ airflow.code-workspace
 airflow.db
 airflow.cfg
 venv/
-setup.sh
+.pytest_cache/
+samples/
