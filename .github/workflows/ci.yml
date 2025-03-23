@@ -9,11 +9,11 @@ on:
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_BASE: ${{ secrets.ECR_BASE_URL }}
-  ECR_ML: ${{ secrets.ECR_BASE_URL }}/${{ secrets.ECR_ML_REPO }}
-  ECR_API: ${{ secrets.ECR_BASE_URL }}/${{ secrets.ECR_API_REPO }}
-  ECR_FRONTEND: ${{ secrets.ECR_BASE_URL }}/${{ secrets.ECR_FRONTEND_REPO }}
-  ECR_CONFIG: ${{ secrets.ECR_BASE_URL }}/${{ secrets.ECR_CONFIG_REPO }}
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+  ECR_ML: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/weather
+  ECR_API: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/weather-api
+  ECR_FRONTEND: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/weather-frontend
+  ECR_CONFIG: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/weather-config
   POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
   POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -76,6 +76,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
+        echo "Building and pushing to ${{ env.ECR_CONFIG }}"
         docker build . -t ${{ env.ECR_CONFIG }}:latest -f Dockerfile.config
         docker push ${{ env.ECR_CONFIG }}:latest
         docker tag ${{ env.ECR_CONFIG }}:latest ${{ env.ECR_CONFIG }}:${{ github.sha }}
@@ -85,6 +86,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
+        echo "Building and pushing to ${{ env.ECR_ML }}"
         docker build . -t ${{ env.ECR_ML }}:latest -f Dockerfile
         docker push ${{ env.ECR_ML }}:latest
         docker tag ${{ env.ECR_ML }}:latest ${{ env.ECR_ML }}:${{ github.sha }}
@@ -94,6 +96,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
+        echo "Building and pushing to ${{ env.ECR_API }}"
         docker build . -t ${{ env.ECR_API }}:latest -f Dockerfile.api
         docker push ${{ env.ECR_API }}:latest
         docker tag ${{ env.ECR_API }}:latest ${{ env.ECR_API }}:${{ github.sha }}
@@ -103,6 +106,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
+        echo "Building and pushing to ${{ env.ECR_FRONTEND }}"
         docker build . -t ${{ env.ECR_FRONTEND }}:latest -f Dockerfile.frontend
         docker push ${{ env.ECR_FRONTEND }}:latest
         docker tag ${{ env.ECR_FRONTEND }}:latest ${{ env.ECR_FRONTEND }}:${{ github.sha }}
