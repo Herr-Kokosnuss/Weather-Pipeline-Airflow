@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Prediction Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header with weather icon -->
+        <header class="app-header">
+            <div class="weather-icon">
+                <i class="fas fa-cloud-sun"></i>
+            </div>
+            <h1>Weather Forecast</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Left Panel - City Selection -->
+            <div class="selection-panel">
+                <div class="selection-card">
+                    <h2>Select Location</h2>
+                    <div class="form-group">
+                        <label for="citySelect">Choose a city:</label>
+                        <select class="form-select" id="citySelect">
+                            <option value="">Select a city...</option>
+                        </select>
+                    </div>
+                    <button id="getWeather" class="btn btn-primary mt-3">
+                        <i class="fas fa-search"></i> Get Weather
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel - Weather Information -->
+            <div class="weather-panel" id="weatherInfo">
+                <div class="weather-card current-weather">
+                    <h3><i class="fas fa-temperature-high"></i> Current Weather</h3>
+                    <div class="weather-data">
+                        <div class="data-item">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span>Temperature: <span id="currentTemp">--</span>°C</span>
+                        </div>
+                        <div class="data-item">
+                            <i class="fas fa-tint"></i>
+                            <span>Humidity: <span id="currentHumidity">--</span>%</span>
+                        </div>
+                        <div class="data-item last-update">
+                            <i class="fas fa-clock"></i>
+                            <span>Updated: <span id="lastUpdated">--</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-card prediction-info">
+                    <h3><i class="fas fa-chart-line"></i> Weather Prediction</h3>
+                    <div class="weather-data">
+                        <div class="data-item">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>Date: <span id="predictionDate">--</span></span>
+                        </div>
+                        <div class="data-item">
+                            <i class="fas fa-temperature-high"></i>
+                            <span>Predicted: <span id="predictedTemp">--</span>°C</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-card historical-data">
+                    <h3><i class="fas fa-history"></i> Historical Data (12:00 PM)</h3>
+                    <div class="weather-data" id="historicalData">
+                        <!-- Historical data will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

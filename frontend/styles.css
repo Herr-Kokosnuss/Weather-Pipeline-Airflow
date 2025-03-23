@@ -1,0 +1,247 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+.app-header {
+    background: linear-gradient(135deg, #00b4db, #0083b0);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.weather-icon {
+    font-size: 2.5rem;
+    margin-right: 1rem;
+    color: #ffd700;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* Content Layout */
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    padding: 2rem;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Left Panel - Selection */
+.selection-panel {
+    flex: 0 0 300px;
+}
+
+.selection-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.selection-card h2 {
+    color: #2c3e50;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #34495e;
+}
+
+.form-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    background: #3498db;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+/* Right Panel - Weather Information */
+.weather-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.weather-panel.visible {
+    opacity: 1;
+}
+
+.weather-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.weather-card h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.weather-card h3 i {
+    color: #3498db;
+}
+
+.weather-data {
+    display: grid;
+    gap: 1rem;
+}
+
+.data-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.data-item i {
+    color: #3498db;
+    width: 20px;
+}
+
+.last-update {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .selection-panel {
+        flex: none;
+        width: 100%;
+    }
+
+    .weather-panel {
+        width: 100%;
+    }
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+h1 {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+h3 {
+    color: #34495e;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.current-weather, .prediction-info {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.form-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+#weatherInfo {
+    transition: opacity 0.3s ease-in-out;
+}
+
+#weatherInfo.d-none {
+    opacity: 0;
+}
+
+#weatherInfo:not(.d-none) {
+    opacity: 1;
+}
+
+.historical-data .weather-data {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.historical-entry {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.historical-entry:last-child {
+    border-bottom: none;
+}
+
+.historical-entry .date {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.historical-entry .readings {
+    display: flex;
+    gap: 1rem;
+    color: #34495e;
+}
+
+.historical-entry .readings i {
+    width: 16px;
+} 
