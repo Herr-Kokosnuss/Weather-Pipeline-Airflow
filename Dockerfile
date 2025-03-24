@@ -2,7 +2,6 @@ FROM apache/airflow:2.7.1
 
 USER root
 
-# Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
@@ -11,19 +10,14 @@ RUN apt-get update && \
 
 USER airflow
 
-# Copy requirements file
 COPY requirements.txt /requirements.txt
 
-# Install Python dependencies
 RUN pip install --no-cache-dir -r /requirements.txt
 
-# Create directories
 RUN mkdir -p /opt/airflow/scripts /opt/airflow/models /opt/airflow/dags
 
-# Copy application files
 COPY dags/ /opt/airflow/dags/
 COPY scripts/ /opt/airflow/scripts/
 COPY models/ /opt/airflow/models/
 
-# Set working directory
 WORKDIR /opt/airflow 

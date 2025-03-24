@@ -9,3 +9,5 @@ venv/
 .pytest_cache/
 samples/
 data/
+docker-compose-ec2.yml
+keykey

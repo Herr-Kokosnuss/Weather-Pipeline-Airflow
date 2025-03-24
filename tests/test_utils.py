@@ -4,10 +4,8 @@ import os
 import pandas as pd
 from datetime import datetime
 
-# Add the parent directory to the path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Mock functions for testing
 def clean_data(df):
     """Mock function for data cleaning"""
     if df is None or df.empty:
@@ -32,7 +30,6 @@ class TestUtils(unittest.TestCase):
     
     def setUp(self):
         """Set up test data"""
-        # Create sample weather data
         self.test_data = pd.DataFrame({
             'date': [datetime.now()] * 5,
             'temperature': [20, 22, 19, 21, 23],
@@ -40,18 +37,15 @@ class TestUtils(unittest.TestCase):
             'city': ['Berlin'] * 5
         })
         
-        # Create data with missing values
         self.data_with_nulls = self.test_data.copy()
         self.data_with_nulls.loc[0, 'temperature'] = None
     
     def test_clean_data(self):
         """Test data cleaning function"""
-        # Test with normal data
         cleaned = clean_data(self.test_data)
         self.assertEqual(len(cleaned), len(self.test_data))
         self.assertTrue(cleaned['temperature'].notna().all())
         
-        # Test with null values
         cleaned = clean_data(self.data_with_nulls)
         self.assertEqual(len(cleaned), len(self.data_with_nulls) - 1)
     
@@ -62,11 +56,9 @@ class TestUtils(unittest.TestCase):
         
         metrics = calculate_metrics(actual, predicted)
         
-        # Check metric types
         self.assertIsInstance(metrics['mae'], float)
         self.assertIsInstance(metrics['rmse'], float)
         
-        # Check metric ranges
         self.assertGreaterEqual(metrics['mae'], 0)
         self.assertGreaterEqual(metrics['rmse'], 0)
     
@@ -75,7 +67,6 @@ class TestUtils(unittest.TestCase):
         test_date = datetime.now()
         formatted = format_date(test_date)
         
-        # Check format
         self.assertIsInstance(formatted, str)
         self.assertEqual(len(formatted.split('-')), 3)
 

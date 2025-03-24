@@ -10,10 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatPopup = document.getElementById('chatPopup');
     const API_BASE_URL = 'http://localhost:8000';
 
-    // Initialize with loading state
     let isLoading = false;
 
-    // Chat toggle functionality
     chatToggle.addEventListener('click', () => {
         chatPopup.classList.add('active');
         chatInput.focus();
@@ -23,14 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
         chatPopup.classList.remove('active');
     });
 
-    // Close chat when clicking outside
     document.addEventListener('click', (e) => {
         if (!chatPopup.contains(e.target) && !chatToggle.contains(e.target)) {
             chatPopup.classList.remove('active');
         }
     });
 
-    // Fetch available cities
     console.log('Fetching cities from:', `${API_BASE_URL}/`);
     fetch(`${API_BASE_URL}/`)
         .then(response => {
@@ -57,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showError(`Failed to load cities: ${error.message}. Please check if the backend service is running.`);
         });
 
-    // Handle get weather button click
     getWeatherBtn.addEventListener('click', fetchWeatherData);
 
     function fetchWeatherData() {
@@ -69,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (isLoading) return;
         
-        // Set loading state
         isLoading = true;
         setLoadingState(true);
 
@@ -98,16 +92,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateWeatherDisplay(data) {
-        // Update current weather with timestamp from API
         document.getElementById('currentTemp').textContent = data.current_temperature.toFixed(1);
         document.getElementById('currentHumidity').textContent = data.current_humidity.toFixed(1);
         document.getElementById('lastUpdated').textContent = data.last_updated;
 
-        // Update prediction
         document.getElementById('predictionDate').textContent = data.prediction_date;
         document.getElementById('predictedTemp').textContent = data.predicted_temperature.toFixed(1);
 
-        // Update historical data
         const historicalContainer = document.getElementById('historicalData');
         historicalContainer.innerHTML = ''; // Clear existing data
 
@@ -135,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
             historicalContainer.appendChild(historyEntry);
         });
 
-        // Show the weather info panel
         weatherInfo.classList.add('visible');
     }
 
@@ -151,7 +141,6 @@ document.addEventListener('DOMContentLoaded', function() {
         alert(message);
     }
 
-    // Chat functionality
     function addMessage(message, isUser = false) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
@@ -168,14 +157,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const message = chatInput.value.trim();
         if (!message) return;
 
-        // Clear input
         chatInput.value = '';
 
-        // Add user message to chat
         addMessage(message, true);
 
         try {
-            // Disable input while processing
             chatInput.disabled = true;
             sendMessageBtn.disabled = true;
 
@@ -198,17 +184,14 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Chat error:', error);
             addMessage('Sorry, I encountered an error. Please try again.');
         } finally {
-            // Re-enable input
             chatInput.disabled = false;
             sendMessageBtn.disabled = false;
             chatInput.focus();
         }
     }
 
-    // Handle send message button click
     sendMessageBtn.addEventListener('click', sendMessage);
 
-    // Handle enter key in chat input
     chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             sendMessage();

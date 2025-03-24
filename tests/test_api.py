@@ -5,13 +5,10 @@ from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 
-# Add the parent directory to the path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Define mock data
 MOCK_CITIES = ["Berlin", "Munich", "Hamburg"]
 
-# Create a mock FastAPI app for testing
 app = FastAPI(title="Weather ML API Mock")
 
 @app.get("/health")

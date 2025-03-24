@@ -46,7 +46,6 @@ daily_dag = DAG(
     tags=['weather', 'daily'],
 )
 
-# Define tasks for initial DAG
 initial_collect_task = PythonOperator(
     task_id='collect_historical_data',
     python_callable=collect_historical_data,
@@ -60,7 +59,6 @@ initial_train_task = PythonOperator(
     dag=initial_dag,
 )
 
-# Define tasks for daily DAG
 daily_collect_task = PythonOperator(
     task_id='collect_daily_data',
     python_callable=collect_daily_data,
@@ -73,6 +71,5 @@ daily_train_task = PythonOperator(
     dag=daily_dag,
 )
 
-# Define task dependencies
 initial_collect_task >> initial_train_task
 daily_collect_task >> daily_train_task 
