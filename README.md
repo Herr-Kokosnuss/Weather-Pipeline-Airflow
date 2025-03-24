@@ -1,6 +1,40 @@
 # Weather Prediction Pipeline
 
+**Live Demo:** [https://weather.cocolancer.com/](https://weather.cocolancer.com/)
+
 A weather prediction system that combines data collection, machine learning, and web services to provide temperature forecasts for German cities. The project demonstrates containerization, automated workflows, and modern web development practices.
+
+## How It Works
+
+### Data Collection and Storage
+1. The system uses Airflow to manage two automated workflows:
+   - Initial data collection: One-time collection of 5 days of historical data
+   - Daily collection: Runs at 1:00 AM to collect previous day's data
+2. Weather data is fetched from OpenWeatherMap API for 5 German cities
+3. PostgreSQL database stores:
+   - Historical weather readings (temperature and humidity)
+   - Daily predictions for each city
+   - Each reading is stored with city name, timestamp, temperature, and humidity
+
+### Machine Learning Process
+1. A Linear Regression model is trained for each city using:
+   - Historical temperature data from the past 5 days
+   - Day of year (for seasonality)
+   - Day of week
+   - Humidity
+2. The model is retrained daily with fresh data
+3. Predictions are made for the next day's temperature
+4. Both model artifacts and predictions are stored for each city
+
+### Data Flow
+1. Frontend makes API calls to FastAPI backend
+2. Backend provides endpoints for:
+   - Current weather conditions
+   - Next day's temperature predictions
+   - 5-day historical data
+   - AI chat interface for weather queries
+3. All timestamps are converted to German timezone (Europe/Berlin)
+4. Historical data shows one reading per day at 12:00 PM
 
 ## Project Structure
 
