@@ -1,6 +1,6 @@
 # Weather Prediction Pipeline
 
-**Live Demo:** [https://weather.cocolancer.com/](https://weather.cocolancer.com/)
+<!-- **Live Demo:** [https://weather.cocolancer.com/](https://weather.cocolancer.com/) -->
 
 A weather prediction system that combines data collection, machine learning, and web services to provide temperature forecasts for German cities. The project demonstrates containerization, automated workflows, and modern web development practices.
 
